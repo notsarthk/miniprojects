@@ -15,11 +15,27 @@
 </head>
 <body>
    <header>
-   <h1 id="title">Weather Forecast App</h1>
-   <h4>Get the latest weather forecast for any location</h4>
+      <h1 id="title">Weather Forecast App</h1>
+      <h4>Get the latest weather forecast for any location</h4>
    </header>
+   
    <main>
-
+      <div class="search-container">
+         <input type="text" id="search-input" placeholder="Enter city name...">
+         <button id="search-button"><i class="fas fa-search"></i></button>
+      </div>
+      
+      <div id="error-display"></div>
+      
+      <section id="current-weather">
+         <!-- Current weather data will be inserted here -->
+      </section>
+      
+      <section id="forecast">
+         <!-- Forecast data will be inserted here -->
+      </section>
    </main>
+   
+   <script src="script.js"></script>
 </body>
 </html>
