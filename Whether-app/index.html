@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,31 +12,34 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-   <header>
-      <h1 id="title">Weather Forecast App</h1>
-      <h4>Get the latest weather forecast for any location</h4>
-   </header>
-   
-   <main>
-      <div class="search-container">
-         <input type="text" id="search-input" placeholder="Enter city name...">
-         <button id="search-button"><i class="fas fa-search"></i></button>
-      </div>
-      
-      <div id="error-display"></div>
-      
-      <section id="current-weather">
-         <!-- Current weather data will be inserted here -->
-      </section>
-      
-      <section id="forecast">
-         <!-- Forecast data will be inserted here -->
-      </section>
-   </main>
-   
-   <script src="script.js"></script>
+    <div class="container">
+        <div class="heading">
+            <header>
+                <h1 id="titlemain">Weather Forecast App</h1>
+                <h6 id="title">Get the latest weather forecast for any location</h6>
+            </header>
+            <div id="search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search for a location">
+                <button id="search-button">Search</button>
+            </div>
+        </div>
+        
+        <div id="error-display" class="error-message"></div>
+        
+        <div id="current-weather" class="weather-container"></div>
+        
+        <div id="forecast" class="forecast-container"></div>
+    </div>
+    
+    <script src="script.js"></script>
+    <!-- Add this before the closing body tag -->
+    <footer class="footer">
+        <p>Created with <i class="fas fa-heart"></i> | Weather data from <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a></p>
+    </footer>
 </body>
+
 </html>

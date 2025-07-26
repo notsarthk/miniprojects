@@ -1,7 +1,7 @@
 // Weather App JavaScript
 
 // API key for OpenWeatherMap - Replace with your actual API key
-const API_KEY = "YOUR_API_KEY_HERE";
+const API_KEY = "Y2A654M2JCTTVY4YUDTUME5EY";
 const BASE_URL = "https://api.openweathermap.org/data/2.5/";
 
 // DOM Elements
@@ -39,6 +39,45 @@ searchInput.addEventListener('keypress', (e) => {
 });
 
 // Fetch weather data
+// Add these variables at the top with your other DOM elements
+const celsiusBtn = document.getElementById('celsius');
+const fahrenheitBtn = document.getElementById('fahrenheit');
+let currentUnit = 'metric'; // Default to Celsius
+
+// Add these event listeners after your existing ones
+celsiusBtn.addEventListener('click', () => {
+    if (currentUnit !== 'metric') {
+        currentUnit = 'metric';
+        updateUnitButtons();
+        const lastCity = localStorage.getItem('lastSearchedCity');
+        if (lastCity) {
+            getWeatherData(lastCity);
+        }
+    }
+});
+
+fahrenheitBtn.addEventListener('click', () => {
+    if (currentUnit !== 'imperial') {
+        currentUnit = 'imperial';
+        updateUnitButtons();
+        const lastCity = localStorage.getItem('lastSearchedCity');
+        if (lastCity) {
+            getWeatherData(lastCity);
+        }
+    }
+});
+
+function updateUnitButtons() {
+    if (currentUnit === 'metric') {
+        celsiusBtn.classList.add('active');
+        fahrenheitBtn.classList.remove('active');
+    } else {
+        celsiusBtn.classList.remove('active');
+        fahrenheitBtn.classList.add('active');
+    }
+}
+
+// Modify your getWeatherData function to use the current unit
 async function getWeatherData(city) {
     try {
         // Clear previous error
@@ -48,8 +87,8 @@ async function getWeatherData(city) {
         currentWeatherSection.innerHTML = '<div class="loading">Loading...</div>';
         forecastSection.innerHTML = '';
         
-        // Fetch current weather
-        const currentWeatherResponse = await fetch(`${BASE_URL}weather?q=${city}&appid=${API_KEY}&units=metric`);
+        // Fetch current weather with the current unit
+        const currentWeatherResponse = await fetch(`${BASE_URL}weather?q=${city}&appid=${API_KEY}&units=${currentUnit}`);
         
         if (!currentWeatherResponse.ok) {
             throw new Error('City not found');
@@ -57,8 +96,11 @@ async function getWeatherData(city) {
         
         const currentWeatherData = await currentWeatherResponse.json();
         
-        // Fetch 5-day forecast
-        const forecastResponse = await fetch(`${BASE_URL}forecast?q=${city}&appid=${API_KEY}&units=metric`);
+        // Update background based on weather
+        updateBackgroundByWeather(currentWeatherData.weather[0].main);
+        
+        // Fetch 5-day forecast with the current unit
+        const forecastResponse = await fetch(`${BASE_URL}forecast?q=${city}&appid=${API_KEY}&units=${currentUnit}`);
         const forecastData = await forecastResponse.json();
         
         // Update UI
@@ -72,7 +114,48 @@ async function getWeatherData(city) {
     }
 }
 
-// Update current weather UI
+// Add this function to update the background based on weather
+function updateBackgroundByWeather(weatherMain) {
+    // Remove all weather background classes
+    document.body.classList.remove(
+        'weather-bg-clear',
+        'weather-bg-clouds',
+        'weather-bg-rain',
+        'weather-bg-snow',
+        'weather-bg-thunderstorm',
+        'weather-bg-mist'
+    );
+    
+    // Add the appropriate class based on weather
+    switch(weatherMain.toLowerCase()) {
+        case 'clear':
+            document.body.classList.add('weather-bg-clear');
+            break;
+        case 'clouds':
+            document.body.classList.add('weather-bg-clouds');
+            break;
+        case 'rain':
+        case 'drizzle':
+            document.body.classList.add('weather-bg-rain');
+            break;
+        case 'snow':
+            document.body.classList.add('weather-bg-snow');
+            break;
+        case 'thunderstorm':
+            document.body.classList.add('weather-bg-thunderstorm');
+            break;
+        case 'mist':
+        case 'fog':
+        case 'haze':
+            document.body.classList.add('weather-bg-mist');
+            break;
+        default:
+            // Default gradient is already set in CSS
+            break;
+    }
+}
+
+// Modify your updateCurrentWeather function to show the correct unit
 function updateCurrentWeather(data) {
     const temp = Math.round(data.main.temp);
     const feelsLike = Math.round(data.main.feels_like);
@@ -84,18 +167,22 @@ function updateCurrentWeather(data) {
     const windSpeed = data.wind.speed;
     const pressure = data.main.pressure;
     
+    // Use the correct unit symbol
+    const unitSymbol = currentUnit === 'metric' ? '°C' : '°F';
+    const windSpeedUnit = currentUnit === 'metric' ? 'm/s' : 'mph';
+    
     currentWeatherSection.innerHTML = `
         <div class="weather-card">
             <div class="weather-icon">
                 <i class="${weatherIcon}"></i>
             </div>
-            <div class="temperature">${temp}°C</div>
+            <div class="temperature">${temp}${unitSymbol}</div>
             <div class="description">${weatherDescription}</div>
             <div class="location">${cityName}, ${country}</div>
             <div class="details">
                 <div class="detail">
                     <i class="fas fa-temperature-low"></i>
-                    <span>Feels like: ${feelsLike}°C</span>
+                    <span>Feels like: ${feelsLike}${unitSymbol}</span>
                 </div>
                 <div class="detail">
                     <i class="fas fa-tint"></i>
@@ -103,7 +190,7 @@ function updateCurrentWeather(data) {
                 </div>
                 <div class="detail">
                     <i class="fas fa-wind"></i>
-                    <span>Wind: ${windSpeed} m/s</span>
+                    <span>Wind: ${windSpeed} ${windSpeedUnit}</span>
                 </div>
                 <div class="detail">
                     <i class="fas fa-compress-alt"></i>
