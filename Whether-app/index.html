@@ -1,45 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A weather application to check current weather conditions and forecasts">
-    <meta name="keywords" content="weather, forecast, temperature, weather app">
-    <meta name="author" content="Your Name">
-    <title>Weather Forecast App</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Weather App</title>
 </head>
-
 <body>
-    <div class="container">
-        <div class="heading">
-            <header>
-                <h1 id="titlemain">Weather Forecast App</h1>
-                <h6 id="title">Get the latest weather forecast for any location</h6>
-            </header>
-            <div id="search">
-                <i class="fas fa-search"></i>
-                <input type="text" id="search-input" placeholder="Search for a location">
-                <button id="search-button">Search</button>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">WeatherApp</div>
+        <ul>
+            <li><a href="#" onclick="goHome()">Home</a></li>
+            <li><a href="#" onclick="showAbout()">About</a></li>
+            <li><a href="#" onclick="showContact()">Contact</a></li>
+        </ul>
+        <button class="nav-btn" onclick="refreshWeather()">Refresh</button>
+    </nav>
+
+    <!-- Main Content -->
+     <main class="main-content">
+        <div class="content">
+            <h1 class="title">Look up for your city!!</h1>
+
+            <p class="description">"Enter the name of your city to get the latest weather updates."</p>
+            <form>
+             <label for="city-input" class="sr-only">Enter city name</label>
+             <input id="city-input" type="search" placeholder="Search city..." />
+             <button type="submit">Search</button>
+            </form>
+
+        </div>
+     </main>
+<hr>
+     <footer class="footer">
+        <div class="reports">
+            <h2 class="subtitle">Weather Reports</h2>
+            <div class="report">
+                <h3 class="report-title">City Name</h3>
+                <p class="report-description">Weather description goes here.</p>
+                <p class="report-description">Weather description goes here.</p>
             </div>
         </div>
-        
-        <div id="error-display" class="error-message"></div>
-        
-        <div id="current-weather" class="weather-container"></div>
-        
-        <div id="forecast" class="forecast-container"></div>
-    </div>
-    
-    <script src="script.js"></script>
-    <!-- Add this before the closing body tag -->
-    <footer class="footer">
-        <p>Created with <i class="fas fa-heart"></i> | Weather data from <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a></p>
     </footer>
 </body>
-
+<script src="script.js"></script>
 </html>
